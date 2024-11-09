@@ -16,7 +16,7 @@ function formatRupiah(number) {
   // Array to store product data retrieved from backend
   let products = [];
   let currentPage = 1;
-  const itemsPerPage = 8; // Number of products per page
+  const itemsPerPage = 5; // Number of products per page
   
   // Function to fetch products from the backend
   // Function to fetch products from the backend
