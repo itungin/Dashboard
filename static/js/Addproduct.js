@@ -25,7 +25,7 @@ document.getElementById("add-product-form").addEventListener("submit", async fun
 
     // Show confirmation dialog before adding the product
     const result = await Swal.fire({
-        icon: "question",
+        icon: "warning",
         title: "Are you sure you want to add this product?",
         showCancelButton: true,
         confirmButtonText: "Yes, add it!",
