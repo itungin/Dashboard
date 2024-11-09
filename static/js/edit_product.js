@@ -1,8 +1,6 @@
-
-
 document.getElementById("Backproductbtn").addEventListener("click", function () {
     window.location.href = "Product.html";
-});
+  });
 
 async function fetchProductById(productId) {
     try {
@@ -16,7 +14,7 @@ async function fetchProductById(productId) {
         }
 
         const product = await response.json();
-        console.log("Product data fetched:", product);
+    console.log("Product data fetched:", product); // 
         
         // Populate the form fields with the product data
         document.getElementById('product-name').value = product.data.name;
@@ -45,47 +43,24 @@ document.getElementById("edit-product-form").addEventListener("submit", async fu
         stock: parseInt(document.getElementById("product-stock").value, 10)
     };
 
-    // Confirm update action
-    const result = await Swal.fire({
-        icon: "warning",
-        title: "Are you sure you want to update this product?",
-        showCancelButton: true,
-        confirmButtonText: 'Yes, update it!',
-        cancelButtonText: 'No, cancel'
-    });
+    try {
+        // Use the same endpoint as in Postman for PUT request
+        const response = await fetch(`https://asia-southeast2-awangga.cloudfunctions.net/itungin/products?id=${productId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedProduct)
+        });
 
-    if (result.isConfirmed) {
-        try {
-            const response = await fetch(`https://asia-southeast2-awangga.cloudfunctions.net/itungin/products?id=${productId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedProduct)
-            });
-
-            if (response.ok) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Updated",
-                    text: "Product updated successfully!"
-                }).then(() => {
-                    window.location.href = "Product.html";
-                });
-            } else {
-                const errorText = await response.text();
-                Swal.fire({
-                    icon: "error",
-                    title: "Failed",
-                    text: `Failed to update product: ${errorText}`
-                });
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "An error occurred. Please try again."
-            });
+        if (response.ok) {
+            alert("Product updated successfully!");
+            window.location.href = "Product.html";
+        } else {
+            const errorText = await response.text();
+            alert(`Failed to update product: ${errorText}`);
         }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
     }
 });
 
