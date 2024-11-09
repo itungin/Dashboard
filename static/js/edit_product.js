@@ -28,7 +28,7 @@ async function fetchProductById(productId) {
     }
 }
 
-// Function to handle product update on form submission
+
 document.getElementById("edit-product-form").addEventListener("submit", async function(event) {
     event.preventDefault();
 
