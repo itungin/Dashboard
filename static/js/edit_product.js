@@ -1,8 +1,3 @@
-// Import JSCroot from the CDN
-import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
-import {addCSS} from "https://cdn.jsdelivr.net/gh/jscroot/lib@0.0.9/element.js";
-
-addCSS("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css");
 
 
 document.getElementById("Backproductbtn").addEventListener("click", function () {
