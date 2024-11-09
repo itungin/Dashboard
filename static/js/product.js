@@ -162,7 +162,7 @@ function formatRupiah(number) {
   // Function to delete a product
   async function deleteProduct(productId) {
     const result = await Swal.fire({
-      icon: "question",
+      icon: "warning",
       title: "Are you sure you want to delete this data?",
       text: "DELETE",
       showCancelButton: true,
