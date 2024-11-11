@@ -1,15 +1,11 @@
-// Import the JSCroot library
-import * as JSCroot from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.0.1/api.js';
-
 document.addEventListener('DOMContentLoaded', function () {
-    const loginButton = document.getElementById('login-btn'); // Selector for login button
-    const emailInput = document.getElementById('email'); // Selector for email input
+    const loginButton = document.getElementById('login-btn'); // Ganti selector tombol login
+    const emailInput = document.getElementById('email'); // Ganti selector untuk email
     const passwordInput = document.getElementById('password');
 
-    loginButton.addEventListener('click', async function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const email = emailInput.value; // Get email input value
+    loginButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Mencegah pengiriman form secara default
+        const email = emailInput.value; // Ambil nilai dari input email
         const password = passwordInput.value;
 
         if (!email || !password) {
@@ -18,29 +14,31 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const data = {
-            email: email,
+            email: email, // Ganti username dengan email
             password: password,
         };
 
-        try {
-            const response = await JSCroot.post('http://localhost:8081/login', {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log(result);
-                alert('Login successful!');
-                window.location.href = 'index.html'; // Redirect on success
-            } else {
+        fetch('http://localhost:8081/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (!response.ok) {
                 throw new Error('Login failed');
             }
-        } catch (error) {
+            return response.json();
+        })
+        .then(result => {
+            console.log(result);
+            alert('Login successful!');
+            window.location.href = 'index.html';
+        })
+        .catch(error => {
             console.error('Error:', error);
             alert('Login failed. Check your email and password.');
-        }
+        });
     });
 });

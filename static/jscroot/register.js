@@ -1,17 +1,14 @@
-// Import the JSCroot library (assuming you are using it as an ES module)
-import * as JSCroot from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.0.1/api.js';
-
-// Event listener for form submit
+// Event listener untuk form submit
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
-    e.preventDefault(); // Prevent form from submitting the default way
+    e.preventDefault(); // Mencegah submit form secara default
 
-    // Get form values
+    // Mengambil nilai dari form
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const umkmName = document.getElementById('umkm_name').value;
 
-    // Create an object to send to the backend
+    // Membuat object untuk dikirim ke backend
     const data = {
         name: name,
         email: email,
@@ -20,20 +17,20 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     };
 
     try {
-        // Replace fetch with JSCroot's post request function
-        const response = await JSCroot.post('http://localhost:8081/register', {
+        const response = await fetch('http://localhost:8081/register', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         });
 
-        // Check server response
+        // Mengecek response dari server
         if (response.ok) {
             const result = await response.json();
             alert('Registration successful!');
             console.log(result);
-            // Redirect or do something after success
+            // Redirect atau lakukan sesuatu setelah berhasil
         } else {
             const error = await response.json();
             alert('Registration failed: ' + error.message);
@@ -45,8 +42,8 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     }
 });
 
-// Event listener for "Back to main menu" button
+// Event listener untuk tombol "Back to main menu"
 document.getElementById('back-btn').addEventListener('click', function (e) {
-    e.preventDefault(); // Prevent default button behavior
-    window.location.href = 'LP.html'; // Redirect to LP.html
+    e.preventDefault(); // Mencegah default button behavior
+    window.location.href = 'LP.html'; // Redirect ke halaman LP.html
 });

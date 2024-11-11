@@ -1,33 +1,18 @@
-// Import JSCroot library for API handling
-import * as JSCroot from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.0.1/api.js';
+// Inisialisasi data dummy untuk faktur dan pengeluaran
+const invoices = [
+    { id: 1, description: 'Faktur 001', amount: 5000000 },
+    { id: 2, description: 'Faktur 002', amount: 3000000 },
+];
 
-// Fetch data for invoices and expenses from backend (replace dummy data)
-async function fetchInvoices() {
-    try {
-        const response = await JSCroot.get('https://your-backend-api-url.com/invoices'); // Update with actual endpoint
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching invoices:', error);
-        return []; // Return an empty array on error
-    }
-}
+const expenses = [
+    { id: 1, description: 'Pembelian Barang', amount: 1000000 },
+    { id: 2, description: 'Pembayaran Gaji', amount: 2000000 },
+];
 
-async function fetchExpenses() {
-    try {
-        const response = await JSCroot.get('https://your-backend-api-url.com/expenses'); // Update with actual endpoint
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching expenses:', error);
-        return []; // Return an empty array on error
-    }
-}
-
-// Function to display invoices on the page
-async function displayInvoices() {
+// Fungsi untuk menampilkan faktur
+function displayInvoices() {
     const invoiceList = document.getElementById('invoice-list');
-    invoiceList.innerHTML = ''; // Clear existing invoices
-
-    const invoices = await fetchInvoices(); // Get invoices from backend
+    invoiceList.innerHTML = ''; // Kosongkan daftar faktur
 
     invoices.forEach((invoice) => {
         const li = document.createElement('li');
@@ -36,12 +21,10 @@ async function displayInvoices() {
     });
 }
 
-// Function to display expenses on the page
-async function displayExpenses() {
+// Fungsi untuk menampilkan pengeluaran
+function displayExpenses() {
     const expenseList = document.getElementById('expense-list');
-    expenseList.innerHTML = ''; // Clear existing expenses
-
-    const expenses = await fetchExpenses(); // Get expenses from backend
+    expenseList.innerHTML = ''; // Kosongkan daftar pengeluaran
 
     expenses.forEach((expense) => {
         const li = document.createElement('li');
@@ -50,7 +33,7 @@ async function displayExpenses() {
     });
 }
 
-// Call functions to display data when the page loads
+// Panggil fungsi untuk menampilkan data saat halaman dimuat
 window.onload = function () {
     displayInvoices();
     displayExpenses();

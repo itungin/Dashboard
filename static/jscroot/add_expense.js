@@ -1,22 +1,14 @@
-// Function to handle the form submission for adding expenses
 async function submitExpense(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
-    // Prepare expense data from form inputs
     const expenseData = {
-        expense_name: document.getElementById('expense_name').value.trim(),
-        amount: parseFloat(document.getElementById('amount').value) || 0,
-        category: document.getElementById('category').value.trim(),
-        expense_date: new Date(document.getElementById('expense_date').value).toISOString(),
+        expense_name: document.getElementById('expense_name').value,
+        amount: parseFloat(document.getElementById('amount').value),
+        category: document.getElementById('category').value,
+        expense_date: new Date(document.getElementById('expense_date').value).toISOString(), // Format tanggal ke ISO 8601
         payment_method: document.getElementById('payment_method') ? document.getElementById('payment_method').value : "",
         notes: document.getElementById('notes') ? document.getElementById('notes').value : ""
     };
-
-    // Basic validation for required fields
-    if (!expenseData.expense_name || !expenseData.amount || !expenseData.category || !expenseData.expense_date) {
-        alert('Please complete all required fields.');
-        return;
-    }
 
     try {
         const response = await fetch('https://asia-southeast2-awangga.cloudfunctions.net/itungin/expense', {
@@ -28,17 +20,13 @@ async function submitExpense(event) {
         });
 
         if (response.ok) {
-            alert('Expense added successfully!');
-            window.location.href = 'Business.html'; // Redirect to the main page
+            alert('Pengeluaran berhasil ditambahkan!');
+            window.location.href = 'Business.html'; // Kembali ke halaman utama
         } else {
             const errorData = await response.json();
-            alert(`Failed to add expense: ${errorData.message}`);
+            alert(`Gagal menambahkan pengeluaran: ${errorData.message}`);
         }
     } catch (error) {
-        alert(`An error occurred: ${error.message}`);
-        console.error('Error details:', error); // Log error details for debugging
+        alert(`Terjadi kesalahan: ${error.message}`);
     }
 }
-
-// Add event listener to submit button
-document.getElementById('submit-expense-btn').addEventListener('click', submitExpense);
