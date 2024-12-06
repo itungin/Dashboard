@@ -10,39 +10,30 @@
     />
     <link rel="stylesheet" href="static/css/style.css" />
 
-    <!-- <script>
+    <script>
       // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
       function getCookie(name) {
-          let cookieArr = document.cookie.split(";");
-          for (let i = 0; i < cookieArr.length; i++) {
-              let cookie = cookieArr[i].trim();
-              if (cookie.startsWith(name + "=")) {
-                  return cookie.substring(name.length + 1);
-              }
+          const cookies = document.cookie.split('; ');
+          for (let cookie of cookies) {
+              const [key, value] = cookie.split('=');
+              if (key === name) return value;
           }
-          return null; // Cookie tidak ditemukan
+          return null;
       }
 
-      // Fungsi untuk memeriksa cookie login
+      // Fungsi untuk melakukan validasi cookie
       function validateLogin() {
-          const loginToken = getCookie("login");
-
-          if (!loginToken) {
-              // Jika cookie login tidak ada, tampilkan popup
-              alert("Silahkan Login Terlebih Dahulu");
-              // Redirect ke halaman login
-              window.location.href = "http://itung.in.my.id/";
-          } else {
-              // Jika loginToken ada, Anda bisa menambahkan logika lain di sini
-              console.log("Login berhasil. Token ditemukan:", loginToken);
+          const loginCookie = getCookie('login');
+          if (!loginCookie) {
+              alert('Silahkan login terlebih dahulu');
+              // Redirect ke halaman login jika diperlukan
+              window.location.href = 'https://itung.in.my.id/login';
           }
       }
 
-      // Jalankan validasi saat halaman dimuat
-      window.onload = function () {
-          validateLogin();
-      };
-  </script> -->
+      // Panggil fungsi validasi saat halaman dimuat
+      document.addEventListener('DOMContentLoaded', validateLogin);
+  </script>
 
     <style>
       /* Reset dan Font Smoothing */
@@ -304,30 +295,6 @@
           display: block;
         }
       }
-      /* Popup style */
-      #popup {
-          display: none;
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background: rgba(0, 0, 0, 0.8);
-          color: white;
-          padding: 20px;
-          border-radius: 8px;
-          z-index: 1000;
-          text-align: center;
-      }
-      #overlay {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.5);
-          z-index: 999;
-      }
   </style>
 </head>
 <body>
@@ -388,63 +355,7 @@
     </header>
 
     <main class="dashboard">
-      <div id="overlay"></div>
-      <div id="popup"></div>
-  
-      
-    <script>
-      // Helper function to get a cookie value by name
-      function getCookie(name) {
-          const cookies = document.cookie.split(';');
-          for (let cookie of cookies) {
-              const [key, value] = cookie.trim().split('=');
-              if (key === name) {
-                  console.log(`Cookie ${name} ditemukan dengan nilai: ${value}`);
-                  return value;
-              }
-          }
-          console.log(`Cookie ${name} tidak ditemukan`);
-          return null;
-      }
-  
-      // Function to display the popup
-      function showPopup(message) {
-          console.log(`Menampilkan popup dengan pesan: ${message}`);
-          const popup = document.getElementById('popup');
-          const overlay = document.getElementById('overlay');
-          popup.textContent = message;
-          popup.style.display = 'block';
-          overlay.style.display = 'block';
-      }
-  
-      // Function to hide the popup
-      function hidePopup() {
-          console.log('Menyembunyikan popup');
-          const popup = document.getElementById('popup');
-          const overlay = document.getElementById('overlay');
-          popup.style.display = 'none';
-          overlay.style.display = 'none';
-      }
-  
-      // Main logic to check the login cookie
-      window.onload = function () {
-          console.log('Halaman dimuat, memulai pemeriksaan cookie');
-          const loginCookie = getCookie('login');
-  
-          if (loginCookie) {
-              // If login cookie exists
-              showPopup('Selamat Datang');
-              setTimeout(hidePopup, 1000); // Hide popup after 1 second
-          } else {
-              // If login cookie does not exist
-              showPopup('Silahkan Login terlebih dahulu');
-              setTimeout(function () {
-                  hidePopup();
-                  window.location.href = 'https://itung.in.my.id/'; // Redirect to login page
-              }, 1000);
-          }
-      };
-  </script>
+
       <!-- Business Bank Account Card -->
       <section class="card bank-account">
         <h2>Business Bank Account</h2>
