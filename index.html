@@ -10,61 +10,64 @@
     />
     <link rel="stylesheet" href="static/css/style.css" />
 
-    <!-- <script>
+     <script>
       // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
-      function getCookie(name) {
-          const cookies = document.cookie.split('; ');
-          for (let cookie of cookies) {
-              const [key, value] = cookie.split('=');
-              if (key === name) return value;
-          }
-          return null;
-      }
+      //function getCookie(name) {
+          //const cookies = document.cookie.split('; ');
+          //for (let cookie of cookies) {
+              //const [key, value] = cookie.split('=');
+              //if (key === name) return value;
+          //}
+          //return null;
+      //}
 
       // Fungsi untuk melakukan validasi cookie
-      function validateLogin() {
-          const loginCookie = getCookie('login');
-          if (!loginCookie) {
-              alert('Silahkan login terlebih dahulu');
+      //function validateLogin() {
+          //const loginCookie = getCookie('login');
+          //if (!loginCookie) {
+              //alert('Silahkan login terlebih dahulu');
               // Redirect ke halaman login jika diperlukan
-              window.location.href = 'https://itung.in.my.id/';
-          }
-      }
+              //window.location.href = 'https://itung.in.my.id/';
+          //}
+      //}
 
       // Panggil fungsi validasi saat halaman dimuat
-      document.addEventListener('DOMContentLoaded', validateLogin);
-  </script> -->
+      //document.addEventListener('DOMContentLoaded', validateLogin);
 
-  <script>
-    // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
+          // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
     function getCookie(name) {
-        const cookies = document.cookie.split('; ');
-        for (let cookie of cookies) {
-            const [key, value] = cookie.split('=');
-            if (key === name) return value;
-        }
-        return null;
-    }
+      const cookies = document.cookie.split('; ');
+      for (let cookie of cookies) {
+          const [key, value] = cookie.split('=');
+          if (key === name) return value;
+      }
+      return null;
+  }
 
-    // Fungsi untuk melakukan validasi cookie
-    function validateLogin() {
-        const loginCookie = getCookie('login');
-        if (!loginCookie) {
-            Swal.fire({
-                title: 'Akses Ditolak',
-                text: 'Silahkan login terlebih dahulu',
-                icon: 'warning',
-                confirmButtonText: 'Login'
-            }).then(() => {
-                // Redirect ke halaman login jika diperlukan
-                window.location.href = 'https://itung.in.my.id';
-            });
-        }
-    }
+  // Fungsi untuk melakukan validasi cookie
+  function validateLogin() {
+      const loginCookie = getCookie('login');
+      if (!loginCookie) {
+          Swal.fire({
+              title: 'Akses Ditolak',
+              text: 'Silahkan login terlebih dahulu',
+              icon: 'warning',
+              confirmButtonText: 'Login'
+          }).then(() => {
+              // Redirect ke halaman login jika diperlukan
+              window.location.href = 'https://itung.in.my.id';
+          });
+      }
+  }
 
-    // Panggil fungsi validasi saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', validateLogin);
-</script>
+  // Panggil fungsi validasi saat halaman dimuat
+  document.addEventListener('DOMContentLoaded', validateLogin);
+
+      
+  </script> 
+
+  
+
 
     <style>
       /* Reset dan Font Smoothing */
