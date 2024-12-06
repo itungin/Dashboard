@@ -10,6 +10,40 @@
     />
     <link rel="stylesheet" href="static/css/style.css" />
 
+    <script>
+      // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
+      function getCookie(name) {
+          let cookieArr = document.cookie.split(";");
+          for (let i = 0; i < cookieArr.length; i++) {
+              let cookie = cookieArr[i].trim();
+              if (cookie.startsWith(name + "=")) {
+                  return cookie.substring(name.length + 1);
+              }
+          }
+          return null; // Cookie tidak ditemukan
+      }
+
+      // Fungsi untuk memeriksa cookie login
+      function validateLogin() {
+          const loginToken = getCookie("login");
+
+          if (!loginToken) {
+              // Jika cookie login tidak ada, tampilkan popup
+              alert("Silahkan Login Terlebih Dahulu");
+              // Redirect ke halaman login
+              window.location.href = "http://itung.in.my.id/";
+          } else {
+              // Jika loginToken ada, Anda bisa menambahkan logika lain di sini
+              console.log("Login berhasil. Token ditemukan:", loginToken);
+          }
+      }
+
+      // Jalankan validasi saat halaman dimuat
+      window.onload = function () {
+          validateLogin();
+      };
+  </script>
+
     <style>
       /* Reset dan Font Smoothing */
       *,
@@ -271,39 +305,7 @@
         }
       }
     </style>
-    <script>
-      // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
-      function getCookie(name) {
-          let cookieArr = document.cookie.split(";");
 
-          for (let i = 0; i < cookieArr.length; i++) {
-              let cookie = cookieArr[i].trim();
-              if (cookie.startsWith(name + "=")) {
-                  return cookie.substring(name.length + 1);
-              }
-          }
-          return null;
-      }
-
-      // Fungsi untuk menampilkan popup berdasarkan status login
-      function checkLogin() {
-          let token = getCookie("login");
-
-          if (token) {
-              // Jika token login ada, tampilkan pesan Selamat Datang
-              alert("Selamat datang!");
-          } else {
-              // Jika token login tidak ada, arahkan ke halaman login
-              alert("Silahkan Login terlebih dahulu");
-              window.location.href = "https://itungin.github.io/";
-          }
-      }
-
-      // Jalankan fungsi checkLogin ketika halaman selesai dimuat
-      window.onload = function() {
-          checkLogin();
-      };
-  </script>
   </head>
   <body>
     <!-- Navigation Bar -->
@@ -359,7 +361,7 @@
       </div>
     </header>
     <!-- Main Dashboard -->
-     <script>
+     <!-- <script>
         // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
         function getCookie(name) {
             let cookieArr = document.cookie.split(";");
@@ -393,7 +395,7 @@
         window.onload = function() {
             checkLogin();
         };
-    </script>
+    </script> -->
     
     <main class="dashboard">
       <!-- Business Bank Account Card -->
