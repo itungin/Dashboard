@@ -307,16 +307,17 @@
             <script>
               document.getElementById('logoutBtn').addEventListener('click', function(event) {
                 event.preventDefault(); // Mencegah link untuk melakukan redirect langsung
-        
-                // Menghapus token dari cookie
+            
+                // Menghapus cookie 'login'
                 document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"; 
-        
-                // Anda bisa menggunakan lokal storage jika token disimpan di sana:
-                // localStorage.removeItem("login"); 
-        
+            
+                // Menghapus item 'login' dari localStorage jika ada
+                localStorage.removeItem("login");
+            
                 // Redirect ke halaman login setelah logout
                 window.location.href = "https://itungin.github.io/";
             });
+            
             </script>
 
 
