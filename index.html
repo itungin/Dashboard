@@ -331,62 +331,8 @@
   </style>
 </head>
 <body>
-  <div id="overlay"></div>
-  <div id="popup"></div>
 
-  <script>
-      // Helper function to get a cookie value by name
-      function getCookie(name) {
-          const cookies = document.cookie.split(';');
-          for (let cookie of cookies) {
-              const [key, value] = cookie.trim().split('=');
-              if (key === name) {
-                  console.log(`Cookie ${name} ditemukan dengan nilai: ${value}`);
-                  return value;
-              }
-          }
-          console.log(`Cookie ${name} tidak ditemukan`);
-          return null;
-      }
 
-      // Function to display the popup
-      function showPopup(message) {
-          console.log(`Menampilkan popup dengan pesan: ${message}`);
-          const popup = document.getElementById('popup');
-          const overlay = document.getElementById('overlay');
-          popup.textContent = message;
-          popup.style.display = 'block';
-          overlay.style.display = 'block';
-      }
-
-      // Function to hide the popup
-      function hidePopup() {
-          console.log('Menyembunyikan popup');
-          const popup = document.getElementById('popup');
-          const overlay = document.getElementById('overlay');
-          popup.style.display = 'none';
-          overlay.style.display = 'none';
-      }
-
-      // Main logic to check the login cookie
-      window.onload = function () {
-          console.log('Halaman dimuat, memulai pemeriksaan cookie');
-          const loginCookie = getCookie('login');
-
-          if (loginCookie) {
-              // If login cookie exists
-              showPopup('Selamat Datang');
-              setTimeout(hidePopup, 1000); // Hide popup after 1 second
-          } else {
-              // If login cookie does not exist
-              showPopup('Silahkan Login terlebih dahulu');
-              setTimeout(function () {
-                  hidePopup();
-                  window.location.href = 'https://itung.in.my.id/'; // Redirect to login page
-              }, 1000);
-          }
-      };
-  </script>
   
     <!-- Navigation Bar -->
     <header>
@@ -440,8 +386,63 @@
         </div>
       </div>
     </header>
+    <div id="overlay"></div>
+    <div id="popup"></div>
 
     
+  <script>
+    // Helper function to get a cookie value by name
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [key, value] = cookie.trim().split('=');
+            if (key === name) {
+                console.log(`Cookie ${name} ditemukan dengan nilai: ${value}`);
+                return value;
+            }
+        }
+        console.log(`Cookie ${name} tidak ditemukan`);
+        return null;
+    }
+
+    // Function to display the popup
+    function showPopup(message) {
+        console.log(`Menampilkan popup dengan pesan: ${message}`);
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+        popup.textContent = message;
+        popup.style.display = 'block';
+        overlay.style.display = 'block';
+    }
+
+    // Function to hide the popup
+    function hidePopup() {
+        console.log('Menyembunyikan popup');
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+
+    // Main logic to check the login cookie
+    window.onload = function () {
+        console.log('Halaman dimuat, memulai pemeriksaan cookie');
+        const loginCookie = getCookie('login');
+
+        if (loginCookie) {
+            // If login cookie exists
+            showPopup('Selamat Datang');
+            setTimeout(hidePopup, 1000); // Hide popup after 1 second
+        } else {
+            // If login cookie does not exist
+            showPopup('Silahkan Login terlebih dahulu');
+            setTimeout(function () {
+                hidePopup();
+                window.location.href = 'https://itung.in.my.id/'; // Redirect to login page
+            }, 1000);
+        }
+    };
+</script>
     <main class="dashboard">
       <!-- Business Bank Account Card -->
       <section class="card bank-account">
