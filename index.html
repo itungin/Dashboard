@@ -344,14 +344,17 @@
           for (let cookie of cookies) {
               const [key, value] = cookie.trim().split('=');
               if (key === name) {
+                  console.log(`Cookie ${name} ditemukan dengan nilai: ${value}`);
                   return value;
               }
           }
+          console.log(`Cookie ${name} tidak ditemukan`);
           return null;
       }
 
       // Function to display the popup
       function showPopup(message) {
+          console.log(`Menampilkan popup dengan pesan: ${message}`);
           const popup = document.getElementById('popup');
           const overlay = document.getElementById('overlay');
           popup.textContent = message;
@@ -361,6 +364,7 @@
 
       // Function to hide the popup
       function hidePopup() {
+          console.log('Menyembunyikan popup');
           const popup = document.getElementById('popup');
           const overlay = document.getElementById('overlay');
           popup.style.display = 'none';
@@ -369,6 +373,7 @@
 
       // Main logic to check the login cookie
       window.onload = function () {
+          console.log('Halaman dimuat, memulai pemeriksaan cookie');
           const loginCookie = getCookie('login');
 
           if (loginCookie) {
