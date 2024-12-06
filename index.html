@@ -271,6 +271,39 @@
         }
       }
     </style>
+    <script>
+      // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
+      function getCookie(name) {
+          let cookieArr = document.cookie.split(";");
+
+          for (let i = 0; i < cookieArr.length; i++) {
+              let cookie = cookieArr[i].trim();
+              if (cookie.startsWith(name + "=")) {
+                  return cookie.substring(name.length + 1);
+              }
+          }
+          return null;
+      }
+
+      // Fungsi untuk menampilkan popup berdasarkan status login
+      function checkLogin() {
+          let token = getCookie("login");
+
+          if (token) {
+              // Jika token login ada, tampilkan pesan Selamat Datang
+              alert("Selamat datang!");
+          } else {
+              // Jika token login tidak ada, arahkan ke halaman login
+              alert("Silahkan Login terlebih dahulu");
+              window.location.href = "https://itungin.github.io/";
+          }
+      }
+
+      // Jalankan fungsi checkLogin ketika halaman selesai dimuat
+      window.onload = function() {
+          checkLogin();
+      };
+  </script>
   </head>
   <body>
     <!-- Navigation Bar -->
