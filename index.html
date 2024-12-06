@@ -10,39 +10,41 @@
     />
     <link rel="stylesheet" href="static/css/style.css" />
 
-     <script>
-      //import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
-//import {addCSS} from "https://cdn.jsdelivr.net/gh/jscroot/lib@0.0.9/element.js";
+    <script type="module">
+      import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
+      import { addCSS } from "https://cdn.jsdelivr.net/gh/jscroot/lib@0.0.9/element.js";
 
-//addCSS("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css");
-      // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
+      addCSS(
+        "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css"
+      );
       function getCookie(name) {
-          const cookies = document.cookie.split('; ');
-          for (let cookie of cookies) {
-              const [key, value] = cookie.split('=');
-              if (key === name) return value;
-          }
-          return null;
+        const cookies = document.cookie.split("; ");
+        for (let cookie of cookies) {
+          const [key, value] = cookie.split("=");
+          if (key === name) return value;
+        }
+        return null;
       }
 
       // Fungsi untuk melakukan validasi cookie
       function validateLogin() {
-          const loginCookie = getCookie('login');
-          if (!loginCookie) {
-              alert('Silahkan login terlebih dahulu');
-              //Redirect ke halaman login jika diperlukan
-              window.location.href = 'https://itung.in.my.id/';
-          }
+        const loginCookie = getCookie("login");
+        if (!loginCookie) {
+          Swal.fire({
+            title: "Akses Ditolak",
+            text: "Silahkan login terlebih dahulu",
+            icon: "warning",
+            confirmButtonText: "Login",
+          }).then(() => {
+            // Redirect ke halaman login jika diperlukan
+            window.location.href = "https://itung.in.my.id/login";
+          });
+        }
       }
 
       // Panggil fungsi validasi saat halaman dimuat
-      document.addEventListener('DOMContentLoaded', validateLogin);
-
-          // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
-  </script> 
-
-  
-
+      document.addEventListener("DOMContentLoaded", validateLogin);
+    </script>
 
     <style>
       /* Reset dan Font Smoothing */
@@ -304,12 +306,9 @@
           display: block;
         }
       }
-  </style>
-</head>
-<body>
-
-
-  
+    </style>
+  </head>
+  <body>
     <!-- Navigation Bar -->
     <header>
       <!-- Tombol menu untuk perangkat mobile -->
@@ -342,29 +341,28 @@
             <a href="profile.html">Profile</a>
             <a href="#" id="logoutBtn">Logout</a>
             <script>
-              document.getElementById('logoutBtn').addEventListener('click', function(event) {
-                event.preventDefault(); // Mencegah link untuk melakukan redirect langsung
-            
-                // Menghapus cookie 'login'
-                document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"; 
-            
-                // Menghapus item 'login' dari localStorage jika ada
-                localStorage.removeItem("login");
-            
-                // Redirect ke halaman login setelah logout
-                window.location.href = "https://itungin.github.io/";
-            });
-            
+              document
+                .getElementById("logoutBtn")
+                .addEventListener("click", function (event) {
+                  event.preventDefault(); // Mencegah link untuk melakukan redirect langsung
+
+                  // Menghapus cookie 'login'
+                  document.cookie =
+                    "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
+                  // Menghapus item 'login' dari localStorage jika ada
+                  localStorage.removeItem("login");
+
+                  // Redirect ke halaman login setelah logout
+                  window.location.href = "https://itungin.github.io/";
+                });
             </script>
-
-
           </div>
         </div>
       </div>
     </header>
 
     <main class="dashboard">
-
       <!-- Business Bank Account Card -->
       <section class="card bank-account">
         <h2>Business Bank Account</h2>
@@ -482,15 +480,15 @@
           Generate Map
         </button>
         <button
-        onclick="location.href='https://itung.in.my.id/swagger/'"
-        class="action-button"
-      >
-        <img
-          src="https://img.icons8.com/ios-glyphs/30/000000/note"
-          alt="Generate Report"
-        />
-        Generate Swagger
-      </button>
+          onclick="location.href='https://itung.in.my.id/swagger/'"
+          class="action-button"
+        >
+          <img
+            src="https://img.icons8.com/ios-glyphs/30/000000/note"
+            alt="Generate Report"
+          />
+          Generate Swagger
+        </button>
       </section>
     </main>
 
