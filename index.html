@@ -326,6 +326,42 @@
       </div>
     </header>
     <!-- Main Dashboard -->
+     <script>
+        // Fungsi untuk mendapatkan nilai cookie berdasarkan nama
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(";");
+    
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookie = cookieArr[i].trim();
+                if (cookie.startsWith(name + "=")) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+    
+        // Fungsi untuk memeriksa apakah pengguna sudah login atau belum
+        function checkLogin() {
+            let token = getCookie("login");
+    
+            if (token) {
+                // Jika token ada, lanjutkan ke dashboard
+                console.log("User is logged in!");
+                return true;  // Pengguna sudah login
+            } else {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                console.log("User is not logged in!");
+                window.location.href = "https://itungin.github.io/"; // Arahkan ke halaman login
+                return false;
+            }
+        }
+    
+        // Memeriksa login ketika halaman dashboard di-load
+        window.onload = function() {
+            checkLogin();
+        };
+    </script>
+    
     <main class="dashboard">
       <!-- Business Bank Account Card -->
       <section class="card bank-account">
