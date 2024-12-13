@@ -1,86 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <link rel="stylesheet" href="static/css/profile.css">
-</head>
-<body>
-    <div class="profile-page">
-        <div class="content">
-            <div class="content__cover">
-                <div class="content__bull"><span></span><span></span><span></span><span></span><span></span></div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile Page</title>
+        <link rel="stylesheet" href="static/css/profile.css">
+    </head>
+    <body>
+        <div class="profile-page">
+            <div class="content">
+                <div class="content__cover">
+                    <div class="content__bull"><span></span><span></span><span></span><span></span><span></span></div>
+                </div>
+                <div class="content__actions"><a href="Edit_profile.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                        <path fill="currentColor" d="..."></path>
+                        <path fill="currentColor" d="..."></path>
+                    </svg><span>Edit Profile</span></a>
+                </div>
+                <div class="content__title">
+                    <h1 id="name">Loading...</h1>
+                    <span id="location">Bandung, Indonesia</span>
+                </div>
+                <div class="content__description">
+                    <p id="email">Email: Loading...</p>
+                    <p id="phonenumber">Phone: Loading...</p>
+                </div>
+                <div class="content__button"><a class="button" href="Dashboard.html">
+                    <div class="button__border"></div>
+                    <div class="button__bg"></div>
+                    <p class="button__text">Back to Main Menu</p></a>
+                </div>
             </div>
-            <div class="content__actions"><a href="Edit_profile.html">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                    <path fill="currentColor" d="..."></path>
-                    <path fill="currentColor" d="..."></path>
-                </svg><span>Edit Profile</span></a>
-            </div>
-            <div class="content__title">
-                <h1 id="name">Loading...</h1>
-                <span id="location">Bandung, Indonesia</span>
-            </div>
-            <div class="content__description">
-                <p id="email">Email: Loading...</p>
-                <p id="phone">Phone: Loading...</p>
-                <p id="team">Team: Loading...</p>
-            </div>
-            <div class="content__button"><a class="button" href="Dashboard.html">
-                <div class="button__border"></div>
-                <div class="button__bg"></div>
-                <p class="button__text">Back to Main Menu</p></a>
+            <div class="bg">
+                <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
             </div>
         </div>
-        <div class="bg">
-            <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        </div>
-    </div>
 
-    <script>
-        // Utility function to parse JWT
-        function parseJWT(token) {
-            const base64Url = token.split('.')[1]; // Get payload part
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        }
+        <script>
+          import Cookies from "https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.mjs";
 
-        // Get token from cookies
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        }
-
-        // Fetch user data from token
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = getCookie('login'); // Get token from cookie named 'login'
-
-            if (!token) {
-                alert('Login session not found. Please login again.');
-                window.location.href = 'https://itung.in.my.id/';
-                return;
+          export default function Profile() {
+            async function fetchUserProfile() {
+              const endpoint = "https://asia-southeast2-awangga.cloudfunctions.net/itungin/data/user";
+          
+              try {
+                // Ambil token dari cookies
+                const token = Cookies.get("login");
+                console.log("Token retrieved:", token);
+          
+                if (!token) {
+                  throw new Error("Token is missing in cookies!");
+                }
+          
+                // Fetch data dari API
+                const response = await fetch(endpoint, {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Login: token,
+                  },
+                });
+          
+                console.log("Response status:", response.status);
+          
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+          
+                const result = await response.json();
+                console.log("Response data:", result);
+          
+                // Cek apakah status sukses
+                if (result.response && result.response.status === "Success") {
+                  const { name, email, phonenumber } = result.data;
+          
+                  // Update elemen DOM
+                  document.querySelector("#name").textContent = name;
+                  document.querySelector("#phonenumber").textContent = name;
+                  document.querySelector("#email").textContent = email;
+          
+                  console.log("Profile updated successfully!");
+                } else {
+                  console.error("Failed to fetch profile:", result.response.info);
+                }
+              } catch (error) {
+                console.error("Error fetching user profile:", error.message);
+              }
             }
-
-            try {
-                const userData = parseJWT(token); // Decode token to get user data
-
-                // Update profile data
-                document.getElementById('name').textContent = userData.name || 'Name not available';
-                document.getElementById('email').textContent = `Email: ${userData.email || 'Email not available'}`;
-                document.getElementById('phone').textContent = `Phone: ${userData.phone || 'Phone not available'}`;
-                document.getElementById('team').textContent = `Team: ${userData.team || 'Team not available'}`;
-            } catch (error) {
-                console.error('Error decoding token:', error);
-                alert('Invalid session token. Please login again.');
-                window.location.href = 'https://itung.in.my.id/';
-            }
-        });
-    </script>
-</body>
-</html>
+            fetchUserProfile();
+          }
+        </script>
+    </body>
+    </html>
