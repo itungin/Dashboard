@@ -9,15 +9,13 @@ async function fetchUserProfile() {
     const endpoint = "https://asia-southeast2-awangga.cloudfunctions.net/itungin/data/user";
 
     try {
-        // Ambil token dari cookies
         const token = Cookies.get("login");
-        console.log("Token retrieved:", token);
-
         if (!token) {
-            throw new Error("Token is missing in cookies!");
+            console.error("Token tidak ditemukan!");
+            alert("Token tidak ditemukan. Silakan login ulang.");
+            return;
         }
 
-        // Fetch data dari API
         const response = await fetch(endpoint, {
             method: "GET",
             headers: {
@@ -26,8 +24,6 @@ async function fetchUserProfile() {
             },
         });
 
-        console.log("Response status:", response.status);
-
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -35,21 +31,22 @@ async function fetchUserProfile() {
         const result = await response.json();
         console.log("Response data:", result);
 
-        // Cek apakah status sukses
-        if (result.response && result.response.status === "Success") {
+        if (result && result.name && result.email && result.phonenumber) {
             const { name, email, phonenumber } = result;
 
-            // Update elemen DOM
             document.querySelector("#name").textContent = name;
             document.querySelector("#phonenumber").textContent = phonenumber;
             document.querySelector("#email").textContent = email;
 
-            console.log("Profile updated successfully!");
+            document.querySelector(".profile-info").style.display = "block";
+            document.querySelector("#loading").style.display = "none";
         } else {
-            console.error("Failed to fetch profile:", result.response.info);
+            console.error("Data tidak sesuai:", result);
+            alert("Gagal memuat data profil.");
         }
     } catch (error) {
         console.error("Error fetching user profile:", error.message);
+        alert("Terjadi kesalahan saat memuat profil. Silakan coba lagi.");
     }
 }
 
