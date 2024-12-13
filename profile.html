@@ -42,15 +42,34 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Profil Pengguna</h2>
-        <div class="loading" id="loading">Memuat...</div>
-        <div class="profile-info" style="display:none;">
-            <p><label for="name">Nama:</label><span id="name">Loading...</span></p>
-            <p><label for="email">Email:</label><span id="email">Loading...</span></p>
-            <p><label for="phonenumber">Nomor Telepon:</label><span id="phonenumber">Loading...</span></p>
+  <div class="Profile-page">
+    <div class="overview">
+      <div class="avatar-box">
+        <img class="avatar" id="profile-avatar" src="https://assets.codepen.io/285131/almeria-avatar.jpeg" alt="Avatar" />
+        <h3 class="name" id="name">Loading...</h3>
+      </div>
+      <div class="info-box">
+        <div class="box">
+          <h4 class="heading">General Information</h4>
+          <div class="details">
+            <span class="c-grey">Full Name:</span>
+            <span id="name">Loading...</span>
+            <!-- <span class="c-grey">Gender:</span>
+            <span id="gender">Loading...</span> -->
+          </div>
         </div>
+        <div class="box">
+          <h4 class="heading">Personal Information</h4>
+          <div class="details">
+            <span class="c-grey">Email:</span>
+            <span id="email">Loading...</span>
+            <span class="c-grey">Phone:</span>
+            <span id="phonenumber">Loading...</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
     <!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.mjs"></script> -->
     <script src="static/js/profile.js" type="module"></script>
 </body>

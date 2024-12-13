@@ -5,49 +5,53 @@ addCSS("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css");
 
 import Cookies from "https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.mjs";
 
-async function fetchUserProfile() {
+export default function Profile() {
+  async function fetchUserProfile() {
     const endpoint = "https://asia-southeast2-awangga.cloudfunctions.net/itungin/data/user";
 
     try {
-        const token = Cookies.get("login");
-        if (!token) {
-            console.error("Token tidak ditemukan!");
-            alert("Token tidak ditemukan. Silakan login ulang.");
-            return;
-        }
+      // Ambil token dari cookies
+      const token = Cookies.get("login");
+      console.log("Token retrieved:", token);
 
-        const response = await fetch(endpoint, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Login: token,
-            },
-        });
+      if (!token) {
+        throw new Error("Token is missing in cookies!");
+      }
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+      // Fetch data dari API
+      const response = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Login: token,
+        },
+      });
 
-        const result = await response.json();
-        console.log("Response data:", result);
+      console.log("Response status:", response.status);
 
-        if (result && result.name && result.email && result.phonenumber) {
-            const { name, email, phonenumber } = result;
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-            document.querySelector("#name").textContent = name;
-            document.querySelector("#phonenumber").textContent = phonenumber;
-            document.querySelector("#email").textContent = email;
+      const result = await response.json();
+      console.log("Response data:", result);
 
-            document.querySelector(".profile-info").style.display = "block";
-            document.querySelector("#loading").style.display = "none";
-        } else {
-            console.error("Data tidak sesuai:", result);
-            alert("Gagal memuat data profil.");
-        }
+      // Cek apakah status sukses
+      if (result.response && result.response.status === "Success") {
+        const { name, email, phonenumber } = result.data;
+
+        // Update elemen DOM
+        document.querySelector("#name").textContent = name;
+        document.querySelector("#email").textContent = email;
+        document.querySelector("#phonenumber").textContent = phonenumber;
+
+        console.log("Profile updated successfully!");
+      } else {
+        console.error("Failed to fetch profile:", result.response.info);
+      }
     } catch (error) {
-        console.error("Error fetching user profile:", error.message);
-        alert("Terjadi kesalahan saat memuat profil. Silakan coba lagi.");
+      console.error("Error fetching user profile:", error.message);
     }
+  }
+  fetchUserProfile();
 }
-
-fetchUserProfile();
