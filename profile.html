@@ -1,100 +1,116 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profile Page</title>
-        <link rel="stylesheet" href="static/css/profile.css">
-    </head>
-    <body>
-        <div class="profile-page">
-            <div class="content">
-                <div class="content__cover">
-                    <div class="content__bull"><span></span><span></span><span></span><span></span><span></span></div>
-                </div>
-                <div class="content__actions"><a href="Edit_profile.html">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                        <path fill="currentColor" d="..."></path>
-                        <path fill="currentColor" d="..."></path>
-                    </svg><span>Edit Profile</span></a>
-                </div>
-                <div class="content__title">
-                    <h1 id="name">Loading...</h1>
-                    <span id="location">Bandung, Indonesia</span>
-                </div>
-                <div class="content__description">
-                    <p id="email">Email: Loading...</p>
-                    <p id="phonenumber">Phone: Loading...</p>
-                </div>
-                <div class="content__button"><a class="button" href="Dashboard.html">
-                    <div class="button__border"></div>
-                    <div class="button__bg"></div>
-                    <p class="button__text">Back to Main Menu</p></a>
-                </div>
-            </div>
-            <div class="bg">
-                <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Pengguna</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .container h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .profile-info {
+            margin-top: 20px;
+        }
+        .profile-info p {
+            margin: 8px 0;
+        }
+        .profile-info label {
+            font-weight: bold;
+        }
+        .profile-info span {
+            display: block;
+            margin-top: 5px;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Profil Pengguna</h2>
+        <div class="profile-info">
+            <p><label for="name">Nama:</label><span id="name">Loading...</span></p>
+            <p><label for="email">Email:</label><span id="email">Loading...</span></p>
+            <p><label for="phonenumber">Nomor Telepon:</label><span id="phonenumber">Loading...</span></p>
         </div>
-
-        <script type="module">
-          import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
-import {addCSS} from "https://cdn.jsdelivr.net/gh/jscroot/lib@0.0.9/element.js";
-
-addCSS("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css");
-
-          import Cookies from "https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.mjs";
-
-          export default function Profile() {
-            async function fetchUserProfile() {
-              const endpoint = "https://asia-southeast2-awangga.cloudfunctions.net/itungin/data/user";
-          
-              try {
-                // Ambil token dari cookies
+        <button class="btn" onclick="fetchUserProfile()">Refresh Profil</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.mjs"></script>
+    <script>
+        async function fetchUserProfile() {
+            const endpoint = "https://asia-southeast2-awangga.cloudfunctions.net/itungin/data/user";
+        
+            try {
                 const token = Cookies.get("login");
                 console.log("Token retrieved:", token);
-          
+        
                 if (!token) {
-                  throw new Error("Token is missing in cookies!");
+                    throw new Error("Token is missing in cookies!");
                 }
-          
-                // Fetch data dari API
+        
                 const response = await fetch(endpoint, {
-                  method: "GET",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Login: token,
-                  },
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Login: token,
+                    },
                 });
-          
+        
                 console.log("Response status:", response.status);
-          
+        
                 if (!response.ok) {
-                  throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-          
+        
                 const result = await response.json();
                 console.log("Response data:", result);
-          
-                // Cek apakah status sukses
+        
                 if (result.response && result.response.status === "Success") {
-                  const { name, email, phonenumber } = result.data;
-          
-                  // Update elemen DOM
-                  document.querySelector("#name").textContent = name;
-                  document.querySelector("#phonenumber").textContent = name;
-                  document.querySelector("#email").textContent = email;
-          
-                  console.log("Profile updated successfully!");
+                    const { name, email, phonenumber } = result;
+        
+                    document.querySelector("#name").textContent = name;
+                    document.querySelector("#phonenumber").textContent = phonenumber;
+                    document.querySelector("#email").textContent = email;
+        
+                    console.log("Profile updated successfully!");
                 } else {
-                  console.error("Failed to fetch profile:", result.response.info);
+                    console.error("Failed to fetch profile:", result.response.info);
                 }
-              } catch (error) {
+            } catch (error) {
                 console.error("Error fetching user profile:", error.message);
-              }
             }
-            fetchUserProfile();
-          }
-        </script>
-    </body>
-    </html>
+        }
+        
+        // Initial profile fetch
+        fetchUserProfile();
+    </script>
+</body>
+</html>
