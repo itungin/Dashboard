@@ -3,74 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Pengguna</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        .container h2 {
-            text-align: center;
-            color: #4CAF50;
-        }
-        .profile-info {
-            margin-top: 20px;
-        }
-        .profile-info p {
-            margin: 8px 0;
-        }
-        .profile-info label {
-            font-weight: bold;
-        }
-        .profile-info span {
-            display: block;
-            margin-top: 5px;
-        }
-    </style>
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="static/css/profile.css">
 </head>
 <body>
-  <div class="Profile-page">
-    <div class="overview">
-      <div class="avatar-box">
-        <img class="avatar" id="profile-avatar" src="https://assets.codepen.io/285131/almeria-avatar.jpeg" alt="Avatar" />
-        <h3 class="name" id="name">Loading...</h3>
-      </div>
-      <div class="info-box">
-        <div class="box">
-          <h4 class="heading">General Information</h4>
-          <div class="details">
-            <span class="c-grey">Full Name:</span>
-            <span id="name">Loading...</span>
-            <!-- <span class="c-grey">Gender:</span>
-            <span id="gender">Loading...</span> -->
-          </div>
+    <div class="profile-page">
+        <div class="content">
+            <div class="content__cover">
+                <div class="content__bull"><span></span><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="content__actions"><a href="Edit_profile.html">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                    <path fill="currentColor" d="..."></path>
+                    <path fill="currentColor" d="..."></path>
+                </svg><span>Edit Profile</span></a>
+            </div>
+            <div class="content__title">
+                <h1 id="name">Loading...</h1>
+                <span id="location">Bandung, Indonesia</span>
+            </div>
+            <div class="content__description">
+                <p id="email">Email: Loading...</p>
+                <p id="phone">Phone: Loading...</p>
+                <p id="team">Team: Loading...</p>
+            </div>
+            <div class="content__button"><a class="button" href="Dashboard.html">
+                <div class="button__border"></div>
+                <div class="button__bg"></div>
+                <p class="button__text">Back to Main Menu</p></a>
+            </div>
         </div>
-        <div class="box">
-          <h4 class="heading">Personal Information</h4>
-          <div class="details">
-            <span class="c-grey">Email:</span>
-            <span id="email">Loading...</span>
-            <span class="c-grey">Phone:</span>
-            <span id="phonenumber">Loading...</span>
-          </div>
+        <div class="bg">
+            <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         </div>
-      </div>
     </div>
-  </div>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.mjs"></script> -->
-    <script src="static/js/profile.js" type="module"></script>
+
+    <script>
+        // Utility function to parse JWT
+        function parseJWT(token) {
+            const base64Url = token.split('.')[1]; // Get payload part
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        // Get token from cookies
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Fetch user data from token
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = getCookie('login'); // Get token from cookie named 'login'
+
+            if (!token) {
+                alert('Login session not found. Please login again.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const userData = parseJWT(token); // Decode token to get user data
+
+                // Update profile data
+                document.getElementById('name').textContent = userData.name || 'Name not available';
+                document.getElementById('email').textContent = `Email: ${userData.email || 'Email not available'}`;
+                document.getElementById('phone').textContent = `Phone: ${userData.phone || 'Phone not available'}`;
+                document.getElementById('team').textContent = `Team: ${userData.team || 'Team not available'}`;
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                alert('Invalid session token. Please login again.');
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
 </body>
 </html>
